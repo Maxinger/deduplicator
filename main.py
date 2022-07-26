@@ -52,7 +52,11 @@ for dirs, files in sorted_duplicates:
             if dry_run:
                 print(f'Move {src_path} to {dst_path}')
             else:
-                shutil.move(src_path, os.path.join(dst_path, f[0]))
+                try:
+                    shutil.move(src_path, os.path.join(dst_path, f[0]))
+                except FileNotFoundError:
+                    # the file has been already moved on previous steps
+                    pass
 
     if command == '1':
         move_files_from(dirs[1])
